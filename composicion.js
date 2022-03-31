@@ -3,15 +3,13 @@ const user = [
     {nombre: 'Pineda', apellido: 'Aguirre', edad: 23},
 ]
 
+const head = xs => xs[0];
+const formateo = x => ({
+    nombreCompleto: `${x.nombre} ${x.apellido}`,
+    edad: x.edad
+})
 
-const traerPrimerInfante = data => {
-    const infantes = data.filter(x => x.edad < 24);
-    const primerInfante = infantes[0];
-    const infante = {
-        nombreCompleto : `${primerInfante.nombre} ${primerInfante.apellido}`,
-        edad: `${primerInfante.edad}`
-    }
-    
-    return `${infante.nombreCompleto} tiene ${infante.edad}`
+const formato = x => `${x.nombreCompleto} tiene ${x.edad}`
 
-}
+const traerPrimerInfante = data => formato(formateo(head(data.filter(x => x.edad < 24))));
+
