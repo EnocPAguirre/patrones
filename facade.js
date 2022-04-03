@@ -1,11 +1,9 @@
 const https = require('https');
-const { resolve } = require('path');
 
-const get = url => {
+const get = url => new Promise((reject, resolve) => {
     const comp = url.split('/')
     const host = comp.shift();
-    new Promise(resolve, reject);
-    
+
     const options = {
         hotsname: host,
         path: `/${comp.join('/')}`,
@@ -19,19 +17,25 @@ const get = url => {
             body += d
         })
 
+        res.on('end', d => {
+            const parsed = JSON.parse(body)
+            resolve(parsed)
+    
+        })
+    
     })
-
-    res.on('end', d => {
-        const parsed = JSON.parse(body)
-        resolve(parsed)
-
-    })
-
-    res.on('error', (e) => {
+    
+    req.on('error', (e) => {
         reject(e);
     })
 
     req.end();
+})
+
+const main = async() => {
+
+    const resultado = await get('jsonplaceholder.typicode.com/users');
+    console.log(resultado)
 }
 
-get('jsonplaceholder.typicode.com/users');
+main();
