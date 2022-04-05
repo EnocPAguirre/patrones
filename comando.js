@@ -19,3 +19,6 @@ const Commander = (()=> {
         }
     }
 })();
+
+
+Commander.run('comprar', 'mazda');
